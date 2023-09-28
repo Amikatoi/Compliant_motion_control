@@ -14,7 +14,18 @@ This guide provides step-by-step instructions for setting up ROS 2 on a Ubuntu 2
 10. Now you have successfully set up your Ubuntu VM and can start to do stuff on it. ![Step 10](/macos_vm_setup/resources/images/pic7.jpg)
 
 ## ROS 2 installation
-1. yes
-2. no
-3. maybe
-4. so
+1. Set locale:
+'''
+locale  # check for UTF-8
+
+sudo apt update && sudo apt install locales
+sudo locale-gen en_US en_US.UTF-8
+sudo update-locale LC_ALL=en_US.UTF-8 LANG=en_US.UTF-8
+export LANG=en_US.UTF-8
+
+locale  # verify settings
+'''
+2. 
+3. no
+4. maybe
+5. so
