@@ -5,6 +5,6 @@ This guide provides step-by-step instructions for setting up ROS 2 on a Ubuntu 2
 2. Open the downloaded image and double-click the install box.
 3. Click "Skip" to navigate to "Create New" page. Under "Free Systems", click "Download Ubuntu Linux" and then click "Continue". ![Step 3](/macos_vm_setup/resources/images/pic1.jpg)
 4. Check the unpacked size (roughly 6 GB) and ensure the sufficiency of your computer's storage. After that, click "Download" and wait for the download to finish.
-5. After the download completes, you should see a Ubuntu interface as shown below. Click the "Parallels" icon in the middle to set up a password for your Ubuntu. Retype the password to confirm. Step 5](/macos_vm_setup/resources/images/pic2.jp
-6. Now you are in. Enter your passsword once again in the box on the upper left corner and click "OK". It initializes the Parallels Tools Installation. Step 6](/macos_vm_setup/resources/images/pic3.jp
-7. While the installation is ongoing, walk through the settings regarding legal notice and privacy until a page says "You're ready to go!". Cick "Done". Step 7](/macos_vm_setup/resources/images/pic4.jp
+5. After the download completes, you should see a Ubuntu interface as shown below. Click the "Parallels" icon in the middle to set up a password for your Ubuntu. Retype the password to confirm. ![Step 5](/macos_vm_setup/resources/images/pic2.jpg)
+6. Now you are in. Enter your passsword once again in the box on the upper left corner and click "OK". It initializes the Parallels Tools Installation. ![Step 6](/macos_vm_setup/resources/images/pic3.jpg)
+7. While the installation is ongoing, walk through the settings regarding legal notice and privacy until a page says "You're ready to go!". Cick "Done". ![Step 7](/macos_vm_setup/resources/images/pic4.jpg)
