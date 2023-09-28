@@ -33,7 +33,7 @@ sudo curl -sSL https://raw.githubusercontent.com/ros/rosdistro/master/ros.key -o
 echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/ros-archive-keyring.gpg] http://packages.ros.org/ros2/ubuntu $(. /etc/os-release && echo $UBUNTU_CODENAME) main" | sudo tee /etc/apt/sources.list.d/ros2.list > /dev/null
 ```
 4. Go to https://github.com/ros2/ros2/releases, and download the latest ROS 2 Humble patch release (pick the one with "amd64.tar.bz2"):
-4](/macos_vm_setup/resources/images/pic8.jpg
+![4](/macos_vm_setup/resources/images/pic8.jpg)
 5. Unpack it (replace actual_file_name.amd64.tar.bz2 with the actual file name):
 ```
 mkdir -p ~/ros2_humble
@@ -73,5 +73,5 @@ ros2 run demo_nodes_cpp talker
 . ~/ros2_humble/install/local_setup.bash
 ros2 run demo_nodes_py listener
 ```
-13. If you see the talker saying that it's publishing messages and the listener saying it heard those messages as shown below, this verifies both C++ and Python APIs are working properly. 14](/macos_vm_setup/resources/images/pic9.jpg
+13. If you see the talker saying that it's publishing messages and the listener saying it heard those messages as shown below, this verifies both C++ and Python APIs are working properly. ![14](/macos_vm_setup/resources/images/pic9.jpg)
 
