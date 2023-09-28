@@ -15,7 +15,7 @@ This guide provides step-by-step instructions for setting up ROS 2 on a Ubuntu 2
 
 ## ROS 2 installation
 1. Set locale:
-'''
+```
 locale  # check for UTF-8
 
 sudo apt update && sudo apt install locales
@@ -24,7 +24,7 @@ sudo update-locale LC_ALL=en_US.UTF-8 LANG=en_US.UTF-8
 export LANG=en_US.UTF-8
 
 locale  # verify settings
-'''
+```
 2. 
 3. no
 4. maybe
