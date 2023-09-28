@@ -12,7 +12,7 @@ The primary objective is to explore the effectiveness and adaptability of the UR
 2. What is the system's adaptability to various calligraphy styles or writing tools? And, is there a need for significant recalibration when switching between writing styles?
 
 ## Methodology
-The project leverages Cartesian Impedance Control, wherein the desired Cartesian pose of the robot’s end effector in the task space is inputted. This input assists in computing the required torque, which is then commanded to each joint of the robot, guiding the end effector along the predetermined trajectories.
+The project leverages Cartesian Impedance Control, wherein the desired Cartesian pose of the robot’s end effector in the task space is inputted. This input assists in computing the required torque, which is then commanded to each joint of the robot, guiding the end effector along the predetermined trajectories. In the development of this project, I leveraged controller methods sourced from [3]. These methods, essential to the project's success, can be accessed and reviewed in the authors' entirety on their official GitHub repository. The repository provided valuable insights and a solid foundation, enabling a more streamlined and efficient implementation process.
 
 To achieve the conversion of Chinese characters into robot-compatible coordinates, the project draws inspiration from methodologies proposed in references [1] and [2]. The process involves decomposing Chinese characters into individual strokes and subsequently mapping these strokes to a database containing robotic writing trajectories.
 
@@ -30,3 +30,4 @@ In a nutshell, my project endeavors to craft a symphony between the age-old art 
 
 [1]: https://doi.org/10.3390/app10238694
 [2]: https://ieeexplore.ieee.org/abstract/document/8570842
+[3]: https://github.com/fzi-forschungszentrum-informatik/cartesian_controllers/tree/ros2
