@@ -16,7 +16,7 @@ Below are detailed guidelines for settingn up an Ubuntu VM on your Macbook. Befo
 10. Now you have successfully set up your Ubuntu VM and can start to do stuff on it. ![Step 10](/macos_vm_setup/resources/images/pic7.jpg)
 
 ## ROS 2 installation
-The following instructions on ROS 2 installation are sourced from https://docs.ros.org/en/humble/Installation/Alternatives/Ubuntu-Development-Setup.html. Note that this project's controller works well on "humble" distribution of ROS 2. While other distributions like "foxy" and "iron" might seem compatible, they could introduce unforeseen errors.
+The following instructions on ROS 2 installation are sourced from https://docs.ros.org/en/humble/Installation/Alternatives/Ubuntu-Install-Binary.html. Note that this project's controller works well on "humble" distribution of ROS 2. While other distributions like "foxy" and "iron" might seem compatible, they could introduce unforeseen errors.
 
 1. Ensure that the Ubuntu Universe repository is enabled:
 ```
@@ -75,3 +75,4 @@ ros2 run demo_nodes_py listener
 ```
 13. If you see the talker saying that it's publishing messages and the listener saying it heard those messages as shown below, this verifies both C++ and Python APIs are working properly. ![14](/macos_vm_setup/resources/images/pic9.jpg)
 
+If you encounter any issues regarding ROS 2 "humble" installation, please visit https://docs.ros.org/en/humble/Installation/Alternatives/Ubuntu-Install-Binary.html for furthur information.
