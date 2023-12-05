@@ -10,14 +10,13 @@ class JointTrajectoryPublisher(Node):
     def __init__(self):
         super().__init__('joint_trajectory_publisher')
 
-        # We assume the joint trajectory controller is named /joint_trajectory_controller.
         self.controller_name = '/joint_trajectory_controller'
 
         # Publisher for joint trajectories.
         self.publisher = self.create_publisher(
             JointTrajectory, f'{self.controller_name}/joint_trajectory', 10)
 
-        # Configuration presets for your robot's joint names and goal positions.
+        # Configuration presets
         self.joint_names = [
             'joint1',
             'joint2',
@@ -29,8 +28,7 @@ class JointTrajectoryPublisher(Node):
         
         self.initial_joint_positions = [0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
         
-        # Define your robot's straight line motion in joint space.
-        # These values should be determined by the desired end-effector path.
+        # Define the robot's straight line motion in joint space.
         self.straight_line_goals = [
             [0.0, -np.pi/4, np.pi/2, 0.0, np.pi/4, 0.0],
             [0.0, -np.pi/4, np.pi/2, 0.0, np.pi/4, np.pi/2],

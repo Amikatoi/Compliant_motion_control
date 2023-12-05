@@ -9,13 +9,12 @@ class CartesianMotionPublisher(Node):
     def __init__(self):
         super().__init__('cartesian_motion_publisher')
 
-        # Assuming the cartesian motion controller listens on 'ur5/target_frame'
         self.controller_name = '/target_frame'
 
         # Publisher for Cartesian trajectories
         self.publisher = self.create_publisher(PoseStamped, self.controller_name, 10)
 
-        # Define your robot's straight line motion in Cartesian space
+        # Define the robot's straight line motion in Cartesian space
         # These values should be determined by the desired end-effector path
         self.cartesian_goals = [
             {'x': 0.0, 'y': 0.0, 'z': 0.0, 'w': 0.0},
