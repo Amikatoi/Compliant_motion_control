@@ -72,6 +72,7 @@ target_link_libraries(${PROJECT_NAME}
 
 pluginlib_export_plugin_description_file(hardware_interface cartesian_controller_simulation.xml)
 
+
 #--------------------------------------------------------------------------------
 
 add_library(mujoco_simulator SHARED
@@ -116,6 +117,7 @@ install(PROGRAMS
   scripts/test6.py
   DESTINATION lib/${PROJECT_NAME}
 )
+
 
 
 #--------------------------------------------------------------------------------
