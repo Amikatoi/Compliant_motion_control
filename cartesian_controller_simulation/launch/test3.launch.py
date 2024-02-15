@@ -1,258 +1,134 @@
-# Author: Addison Sears-Collins
-# Date: September 23, 2021
-# Description: Load a URDF and world file into Gazebo.
-# https://automaticaddison.com
- 
-import os
 from launch import LaunchDescription
-from launch.actions import DeclareLaunchArgument, ExecuteProcess, IncludeLaunchDescription
-from launch.conditions import IfCondition, UnlessCondition
+from launch.actions import DeclareLaunchArgument, IncludeLaunchDescription
 from launch.launch_description_sources import PythonLaunchDescriptionSource
-from launch.substitutions import Command, LaunchConfiguration, PythonExpression, PathJoinSubstitution, FindExecutable
+from launch.substitutions import Command, FindExecutable, LaunchConfiguration, PathJoinSubstitution
 from launch_ros.actions import Node
 from launch_ros.substitutions import FindPackageShare
- 
 from ament_index_python.packages import get_package_share_directory
 
+import os
 distro = os.environ['ROS_DISTRO']
- 
+if distro in ['galactic', 'humble', 'iron']:
+    spawner = "spawner"
+else:  # foxy
+    spawner = "spawner.py"
+
+
 def generate_launch_description():
- 
-  # Constants for paths to different files and folders
-  gazebo_models_path = 'models'
-  package_name = 'cartesian_controller_simulation'
-  robot_name_in_model = 'ur5e'
-  rviz_config_file_path = 'rviz/urdf_gazebo_config.rviz'
-  urdf_file_path = 'urdf/ur5.urdf'
-  world_file_path = 'worlds/ur_setup.world'
-     
-  # Pose where we want to spawn the robot
-  spawn_x_val = '0.0'
-  spawn_y_val = '0.0'
-  spawn_z_val = '1.594'
-  spawn_yaw_val = '0.00'
+    # Declare arguments
+    declared_arguments = []
 
-  # Add robot
-  # Define robot_description
-  robot_description_content = Command(
-      [
-          PathJoinSubstitution([FindExecutable(name="xacro")]),
-          " ",
-          PathJoinSubstitution(
-              [FindPackageShare("cartesian_controller_simulation"), "urdf", "ur5.urdf.xacro"]
-          ),
-          " ",
-          "mujoco_model:=",
-          PathJoinSubstitution(
-              [FindPackageShare("cartesian_controller_simulation"), "etc", "robot_mujoco.xml"]
-          ),
-      ]
-  )
-  robot_description = {"robot_description": robot_description_content} 
+    # Define the path to the URDF file
+    urdf_file_path = os.path.join(
+        get_package_share_directory('cartesian_controller_simulation'),
+        'urdf',
+        'ur5.urdf'
+    )
 
-  # Define robot_controllers
-  robot_controllers = PathJoinSubstitution(
-      [
-          FindPackageShare("cartesian_controller_simulation"), "config", "controller_manager.yaml",
-      ]
-  )
+    # Read the URDF file
+    with open(urdf_file_path, 'r') as file:
+        robot_description_content = file.read()
 
-  ############ You do not need to change anything below this line #############
-   
-  # Set the path to different files and folders.  
-  pkg_gazebo_ros = FindPackageShare(package='gazebo_ros').find('gazebo_ros')   
-  pkg_share = FindPackageShare(package=package_name).find(package_name)
-  default_urdf_model_path = os.path.join(pkg_share, urdf_file_path)
-  default_rviz_config_path = os.path.join(pkg_share, rviz_config_file_path)
-  world_path = os.path.join(pkg_share, world_file_path)
-  gazebo_models_path = os.path.join(pkg_share, gazebo_models_path)
-  os.environ["GAZEBO_MODEL_PATH"] = gazebo_models_path
-   
-  # Launch configuration variables specific to simulation
-  gui = LaunchConfiguration('gui')
-  headless = LaunchConfiguration('headless')
-  namespace = LaunchConfiguration('namespace')
-  rviz_config_file = LaunchConfiguration('rviz_config_file')
-  urdf_model = LaunchConfiguration('urdf_model')
-  use_namespace = LaunchConfiguration('use_namespace')
-  use_robot_state_pub = LaunchConfiguration('use_robot_state_pub')
-  use_rviz = LaunchConfiguration('use_rviz')
-  use_sim_time = LaunchConfiguration('use_sim_time')
-  use_simulator = LaunchConfiguration('use_simulator')
-  world = LaunchConfiguration('world')
-   
-  # Declare the launch arguments  
-  declare_use_joint_state_publisher_cmd = DeclareLaunchArgument(
-    name='gui',
-    default_value='True',
-    description='Flag to enable joint_state_publisher_gui')
-     
-  declare_namespace_cmd = DeclareLaunchArgument(
-    name='namespace',
-    default_value='',
-    description='Top-level namespace')
- 
-  declare_use_namespace_cmd = DeclareLaunchArgument(
-    name='use_namespace',
-    default_value='false',
-    description='Whether to apply a namespace to the navigation stack')
-             
-  declare_rviz_config_file_cmd = DeclareLaunchArgument(
-    name='rviz_config_file',
-    default_value=default_rviz_config_path,
-    description='Full path to the RVIZ config file to use')
- 
-  declare_simulator_cmd = DeclareLaunchArgument(
-    name='headless',
-    default_value='False',
-    description='Whether to execute gzclient')
- 
-  declare_urdf_model_path_cmd = DeclareLaunchArgument(
-    name='urdf_model', 
-    default_value=default_urdf_model_path, 
-    description='Absolute path to robot urdf file')
-     
-  declare_use_robot_state_pub_cmd = DeclareLaunchArgument(
-    name='use_robot_state_pub',
-    default_value='True',
-    description='Whether to start the robot state publisher')
- 
-  declare_use_rviz_cmd = DeclareLaunchArgument(
-    name='use_rviz',
-    default_value='True',
-    description='Whether to start RVIZ')
-     
-  declare_use_sim_time_cmd = DeclareLaunchArgument(
-    name='use_sim_time',
-    default_value='true',
-    description='Use simulation (Gazebo) clock if true')
- 
-  declare_use_simulator_cmd = DeclareLaunchArgument(
-    name='use_simulator',
-    default_value='True',
-    description='Whether to start the simulator')
- 
-  declare_world_cmd = DeclareLaunchArgument(
-    name='world',
-    default_value=world_path,
-    description='Full path to the world model file to load')
-   
-  # Subscribe to the joint states of the robot, and publish the 3D pose of each link.    
-  start_robot_state_publisher_cmd = Node(
-    package='robot_state_publisher',
-    executable='robot_state_publisher',
-    parameters=[{'robot_description': Command(['xacro ', urdf_model])}])
- 
-  # Publish the joint states of the robot
-  start_joint_state_publisher_cmd = Node(
-    package='joint_state_publisher',
-    executable='joint_state_publisher',
-    name='joint_state_publisher',
-    condition=UnlessCondition(gui))
- 
-  # Launch RViz
-  #start_rviz_cmd = Node(
-  # package='rviz2',
-  #  executable='rviz2',
-  #  name='rviz2',
-  #  output='screen',
-  #  arguments=['-d', rviz_config_file])
- 
-  # Start Gazebo server
-  start_gazebo_server_cmd = IncludeLaunchDescription(
-    PythonLaunchDescriptionSource(os.path.join(pkg_gazebo_ros, 'launch', 'gzserver.launch.py')),
-    condition=IfCondition(use_simulator),
-    launch_arguments={'world': world}.items())
- 
-  # Start Gazebo client    
-  start_gazebo_client_cmd = IncludeLaunchDescription(
-    PythonLaunchDescriptionSource(os.path.join(pkg_gazebo_ros, 'launch', 'gzclient.launch.py')),
-    condition=IfCondition(PythonExpression([use_simulator, ' and not ', headless])))
- 
-  # Launch the robot
-  spawn_entity_cmd = Node(
-    package='gazebo_ros', 
-    executable='spawn_entity.py',
-    arguments=['-entity', robot_name_in_model, 
-                '-topic', 'robot_description',
-                    '-x', spawn_x_val,
-                    '-y', spawn_y_val,
-                    '-z', spawn_z_val,
-                    '-Y', spawn_yaw_val],
-                    output='screen')
- 
-  # Create the launch description and populate
-  ld = LaunchDescription()
+    robot_description = {'robot_description': robot_description_content}
 
-  # Add controller
-  # Define the control_node
-  control_node = Node(
-      package="controller_manager",
-      executable="ros2_control_node",
-      parameters=[robot_description, robot_controllers],
-      output="both",
-      remappings=[
-          ('motion_control_handle/target_frame', 'target_frame'),
-          ('cartesian_motion_controller/target_frame', 'target_frame'),
-          ('cartesian_compliance_controller/target_frame', 'target_frame'),
-          ('cartesian_force_controller/target_wrench', 'target_wrench'),
-          ('cartesian_compliance_controller/target_wrench', 'target_wrench'),
-          ('cartesian_force_controller/ft_sensor_wrench', 'ft_sensor_wrench'),
-          ('cartesian_compliance_controller/ft_sensor_wrench', 'ft_sensor_wrench'),
-      ]
-  )
+    robot_controllers = PathJoinSubstitution(
+        [
+            FindPackageShare("cartesian_controller_simulation"), "config", "controller_manager.yaml",
+        ]
+    )
 
-  # Define controller_spawner convenience function
-  def controller_spawner(name, *args):
-      return Node(
-          package="controller_manager",
-          executable="spawner",
-          output="screen",
-          arguments=[name] + [a for a in args],
-      )
+    # The actual simulation is a ROS2-control system interface.
+    # Start that with the usual ROS2 controller manager mechanisms.
+    control_node = Node(
+        package="controller_manager",
+        executable="ros2_control_node",
+        parameters=[robot_description, robot_controllers],
+        prefix="screen -d -m gdb -command=/home/scherzin/.ros/my_debug_log --ex run --args",
+        output="both",
+        remappings=[
+            ('motion_control_handle/target_frame', 'target_frame'),
+            ('cartesian_motion_controller/target_frame', 'target_frame'),
+            ('cartesian_compliance_controller/target_frame', 'target_frame'),
+            ('cartesian_force_controller/target_wrench', 'target_wrench'),
+            ('cartesian_compliance_controller/target_wrench', 'target_wrench'),
+            ('cartesian_force_controller/ft_sensor_wrench', 'ft_sensor_wrench'),
+            ('cartesian_compliance_controller/ft_sensor_wrench', 'ft_sensor_wrench'),
+            ]
+    )
 
-  # Define active and inactive controller spawners
-  active_list = [
-      "joint_state_broadcaster",
-  ]
-  active_spawners = [controller_spawner(controller) for controller in active_list]
+    # Convenience function for easy spawner construction
+    def controller_spawner(name, *args):
+        return Node(
+            package="controller_manager",
+            executable=spawner,
+            output="screen",
+            arguments=[name] + [a for a in args],
+        )
 
-  inactive_list = [
-      "cartesian_compliance_controller",
-      "cartesian_force_controller",
-      "cartesian_motion_controller",
-      "motion_control_handle",
-      "joint_trajectory_controller",
-      "invalid_cartesian_compliance_controller",
-      "invalid_cartesian_force_controller",
-  ]
-  state = "--inactive" if distro in ['humble', 'iron'] else "--stopped"
-  inactive_spawners = [
-      controller_spawner(controller, state) for controller in inactive_list
-  ]
- 
-  # Declare the launch options
-  ld.add_action(declare_use_joint_state_publisher_cmd)
-  ld.add_action(declare_namespace_cmd)
-  ld.add_action(declare_use_namespace_cmd)
-  ld.add_action(declare_rviz_config_file_cmd)
-  ld.add_action(declare_simulator_cmd)
-  ld.add_action(declare_urdf_model_path_cmd)
-  ld.add_action(declare_use_robot_state_pub_cmd)  
-  ld.add_action(declare_use_rviz_cmd) 
-  ld.add_action(declare_use_sim_time_cmd)
-  ld.add_action(declare_use_simulator_cmd)
-  ld.add_action(declare_world_cmd)
- 
-  # Add any actions
-  ld.add_action(start_gazebo_server_cmd)
-  ld.add_action(start_gazebo_client_cmd)
-  ld.add_action(spawn_entity_cmd)
-  ld.add_action(start_robot_state_publisher_cmd)
-  ld.add_action(start_joint_state_publisher_cmd)
-  #ld.add_action(start_rviz_cmd)
-  ld.add_action(control_node)
-  for spawner in active_spawners + inactive_spawners:
-      ld.add_action(spawner)
- 
-  return ld
+    # Active controllers
+    active_list = [
+        "joint_state_broadcaster",
+    ]
+    active_spawners = [controller_spawner(controller) for controller in active_list]
+
+    # Inactive controllers
+    inactive_list = [
+        "cartesian_compliance_controller",
+        "cartesian_force_controller",
+        "cartesian_motion_controller",
+        "motion_control_handle",
+        "joint_trajectory_controller",
+        "invalid_cartesian_compliance_controller",
+        "invalid_cartesian_force_controller",
+    ]
+    state = "--inactive" if distro in ['humble', 'iron'] else "--stopped"
+    inactive_spawners = [
+        controller_spawner(controller, state) for controller in inactive_list
+    ]
+
+    # TF tree
+    robot_state_publisher = Node(
+        package="robot_state_publisher",
+        executable="robot_state_publisher",
+        output="both",
+        parameters=[robot_description],
+    )
+
+    # Visualization
+    #rviz_config = PathJoinSubstitution(
+        #[FindPackageShare("cartesian_controller_simulation"), "etc", "robot.rviz"]
+    #)
+    #rviz = Node(
+        #package="rviz2",
+        #executable="rviz2",
+        #name="rviz2",
+        #output="log",
+        #arguments=["-d", rviz_config]
+    #)
+
+    # Include the Gazebo launch file
+    gazebo = IncludeLaunchDescription(
+        PythonLaunchDescriptionSource([FindPackageShare("gazebo_ros"), '/launch/gzserver.launch.py']),
+        launch_arguments={'world': PathJoinSubstitution([FindPackageShare('cartesian_controller_simulation'), 'worlds', 'ur_setup.world'])}.items(),
+    )
+    
+    # Spawn entity in Gazebo
+    spawn_entity = Node(
+        package="gazebo_ros",
+        executable="spawn_entity.py",
+        arguments=[
+            "-entity", "ur5",
+            "-topic", "robot_description",
+            "-x", "0.0", "-y", "0.0", "-z", "1.0", "-Y", "0.0"
+        ],
+        output="screen"
+    )
+    
+    # Nodes to start
+    nodes = (
+        [robot_state_publisher, gazebo, spawn_entity]
+        + active_spawners
+        + inactive_spawners
+    )
+
+    return LaunchDescription(declared_arguments + nodes)

@@ -4,23 +4,8 @@
   <xacro:include filename="$(find cartesian_controller_simulation)/urdf/ur5.transmission.xacro" />
   <xacro:include filename="$(find cartesian_controller_simulation)/urdf/ur5.gazebo.xacro" />
   
-  <xacro:include filename="$(find cartesian_controller_simulation)/urdf/joint.urdf.xacro"/>
 
-  <!-- <xacro:property name="pi" value="3.14159265" /> -->
-
-        <!-- ROS2 control interfaces --> 
-        <ros2_control name="cartesian_controller_simulation" type="system">
-                <xacro:joint_interface name="joint1" p="1000" d="0.5" />
-                <xacro:joint_interface name="joint2" p="1000" d="0.5" />
-                <xacro:joint_interface name="joint3" p="500" d="0.5" />
-                <xacro:joint_interface name="joint4" p="100" d="0.5" />
-                <xacro:joint_interface name="joint5" p="10" d="0.5" />
-                <xacro:joint_interface name="joint6" p="10" d="0.5" />
-                <hardware>
-                        <plugin>cartesian_controller_simulation/Simulator</plugin>
-                        <param name="mujoco_model">$(arg mujoco_model)</param>
-                </hardware>
-        </ros2_control>
+  <!--<xacro:property name="pi" value="3.14159265" />-->
 
   <!-- Inertia parameters -->
   <xacro:property name="base_mass" value="4.0" />  <!-- This mass might be incorrect -->
@@ -95,7 +80,6 @@
 
 
   <xacro:macro name="ur5_robot" params="prefix joint_limited">
-
     <link name="${prefix}base_link" >
       <visual>
         <geometry>

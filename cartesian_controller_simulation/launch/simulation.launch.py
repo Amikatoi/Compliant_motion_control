@@ -151,12 +151,12 @@ def generate_launch_description():
 
     # Start Gazebo with the UR5e
     #gazebo = Node(
-    #    package="gazebo_ros",
-    #    executable="spawn_entity.py",
-    #    #arguments=["-s", "libgazebo_ros_factory.so", "worlds/ur_setup.world"],
-    #    name="urdf_spawner",
-    #    arguments=["-file", os.path.join(get_package_share_directory('cartesian_controller_simulation'), 'worlds', 'ur_setup.world'), "-entity", "ur_setup"],
-    #    output="screen",
+        #package="gazebo_ros",
+        #executable="spawn_entity.py",
+        #arguments=["-s", "libgazebo_ros_factory.so", "worlds/ur_setup.world"],
+        #name="urdf_spawner",
+        #arguments=["-file", os.path.join(get_package_share_directory('cartesian_controller_simulation'), 'worlds', 'ur_setup.world'), "-entity", "ur_setup"],
+        #output="screen",
     #)
 
     # Nodes to start

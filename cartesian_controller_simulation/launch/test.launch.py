@@ -1,84 +1,117 @@
-# Author: Addison Sears-Collins
-# Date: September 19, 2021
-# Description: Load a world file into Gazebo.
-# https://automaticaddison.com
- 
 import os
+from ament_index_python.packages import get_package_share_directory
 from launch import LaunchDescription
-from launch.actions import DeclareLaunchArgument, IncludeLaunchDescription
 from launch.conditions import IfCondition, UnlessCondition
+from launch.actions import DeclareLaunchArgument, IncludeLaunchDescription, SetEnvironmentVariable, ExecuteProcess
 from launch.launch_description_sources import PythonLaunchDescriptionSource
-from launch.substitutions import Command, LaunchConfiguration, PythonExpression
 from launch_ros.actions import Node
 from launch_ros.substitutions import FindPackageShare
- 
+from launch.substitutions import Command, LaunchConfiguration, PathJoinSubstitution
+
 def generate_launch_description():
- 
-  # Set the path to the Gazebo ROS package
-  pkg_gazebo_ros = FindPackageShare(package='gazebo_ros').find('gazebo_ros')   
-   
-  # Set the path to this package.
-  pkg_share = FindPackageShare(package='cartesian_controller_simulation').find('cartesian_controller_simulation')
- 
-  # Set the path to the world file
-  world_file_name = 'ur_setup.world'
-  world_path = os.path.join(pkg_share, 'worlds', world_file_name)
-   
-  # Set the path to the SDF model files.
-  gazebo_models_path = os.path.join(pkg_share, 'models')
-  os.environ["GAZEBO_MODEL_PATH"] = gazebo_models_path
- 
-  ########### YOU DO NOT NEED TO CHANGE ANYTHING BELOW THIS LINE ##############  
-  # Launch configuration variables specific to simulation
-  headless = LaunchConfiguration('headless')
-  use_sim_time = LaunchConfiguration('use_sim_time')
-  use_simulator = LaunchConfiguration('use_simulator')
-  world = LaunchConfiguration('world')
- 
-  declare_simulator_cmd = DeclareLaunchArgument(
-    name='headless',
-    default_value='False',
-    description='Whether to execute gzclient')
-     
-  declare_use_sim_time_cmd = DeclareLaunchArgument(
-    name='use_sim_time',
-    default_value='true',
-    description='Use simulation (Gazebo) clock if true')
- 
-  declare_use_simulator_cmd = DeclareLaunchArgument(
-    name='use_simulator',
-    default_value='True',
-    description='Whether to start the simulator')
- 
-  declare_world_cmd = DeclareLaunchArgument(
-    name='world',
-    default_value=world_path,
-    description='Full path to the world model file to load')
+    # Package and URDF configuration
+    package_name = 'cartesian_controller_simulation'
+    urdf_file_name = 'ur5.urdf'
+    controller_config_file_name = 'controllers_manager.yaml'
+
+    # Get package path
+    pkg_path = get_package_share_directory(package_name)
+    urdf_file_path = os.path.join(pkg_path, 'urdf', urdf_file_name)
+    controller_config_path = os.path.join(pkg_path, 'config', controller_config_file_name)
     
-  # Specify the actions
-   
-  # Start Gazebo server
-  start_gazebo_server_cmd = IncludeLaunchDescription(
-    PythonLaunchDescriptionSource(os.path.join(pkg_gazebo_ros, 'launch', 'gzserver.launch.py')),
-    condition=IfCondition(use_simulator),
-    launch_arguments={'world': world}.items())
- 
-  # Start Gazebo client    
-  start_gazebo_client_cmd = IncludeLaunchDescription(
-    PythonLaunchDescriptionSource(os.path.join(pkg_gazebo_ros, 'launch', 'gzclient.launch.py')),
-    condition=IfCondition(PythonExpression([use_simulator, ' and not ', headless])))
- 
-  # Create the launch description and populate
-  ld = LaunchDescription()
- 
-  # Declare the launch options
-  ld.add_action(declare_simulator_cmd)
-  ld.add_action(declare_use_sim_time_cmd)
-  ld.add_action(declare_use_simulator_cmd)
-  ld.add_action(declare_world_cmd)
- 
-  # Add any actions
-  ld.add_action(start_gazebo_server_cmd)
-  ld.add_action(start_gazebo_client_cmd)
- 
-  return ld
+    # Determine the ROS distribution
+    distro = os.environ['ROS_DISTRO']
+    spawner = "spawner" if distro in ['galactic', 'humble', 'iron'] else "spawner.py"
+
+    # Set GAZEBO_MODEL_PATH environment variable
+    gazebo_models_path = os.path.join(pkg_path, 'models')
+    set_gazebo_model_path = SetEnvironmentVariable(name='GAZEBO_MODEL_PATH', value=gazebo_models_path)
+
+    # Read the URDF file
+    with open(urdf_file_path, 'r') as file:
+        robot_description_content = file.read()
+    robot_description = {'robot_description': robot_description_content}
+
+    # World file
+    world_file_name = 'ur_setup.world'
+    world_file_path = os.path.join(pkg_path, 'worlds', world_file_name)
+    
+    # Gazebo
+    gazebo = IncludeLaunchDescription(
+        PythonLaunchDescriptionSource([FindPackageShare("gazebo_ros"), '/launch/gzserver.launch.py']),
+        launch_arguments={'world': world_file_path}.items(),
+    )
+
+    # Robot State Publisher
+    robot_state_publisher = Node(
+        package='robot_state_publisher',
+        executable='robot_state_publisher',
+        output='screen',
+        parameters=[robot_description]
+    )
+
+    # Spawn entity in Gazebo
+    spawn_entity = Node(
+        package='gazebo_ros',
+        executable='spawn_entity.py',
+        arguments=['-entity', 'ur5', '-topic', '/robot_description', '-x', '0.0', '-y', '0.0', '-z', '1.594', '-Y', '0.0'],
+        output='screen'
+    )
+    
+    # Declare 'headless' Launch Argument
+    declare_headless_arg = DeclareLaunchArgument(
+        name='headless',
+        default_value='false',
+        description='Set to "true" to run Gazebo in headless mode.'
+    )
+    
+    # Start Gazebo client (GUI)
+    start_gazebo_client_cmd = ExecuteProcess(
+        cmd=['gzclient'],
+        output='screen',
+        condition=UnlessCondition(LaunchConfiguration('headless'))
+    )
+
+######################################################################################    
+    # Controller spawners
+    #controller_spawners = []
+
+    # Active controllers
+    #active_list = ["joint_state_broadcaster"]
+    #for controller in active_list:
+        #controller_spawners.append(Node(
+            #package="controller_manager",
+            #executable=spawner,
+            #arguments=['--controller-manager', '/controller_manager', '--activate', controller],
+            #output="screen",
+        #))
+
+    # Inactive controllers
+    #inactive_list = [
+        #"cartesian_compliance_controller",
+        #"cartesian_force_controller",
+        #"cartesian_motion_controller",
+        #"joint_trajectory_controller",
+    #]
+    #for controller in inactive_list:
+        #controller_spawners.append(Node(
+            #package="controller_manager",
+            #executable=spawner,
+            #arguments=['--controller-manager', '/controller_manager', '--activate', controller, '--inactive'],
+            #output="screen",
+        #))
+
+#########################################################################################
+
+    # Launch Description
+    ld = LaunchDescription([
+        set_gazebo_model_path,
+        DeclareLaunchArgument(name='use_sim_time', default_value='true', description='Use simulation (Gazebo) clock if true'),
+        declare_headless_arg,
+        gazebo,
+        robot_state_publisher,
+        start_gazebo_client_cmd,
+        spawn_entity
+    ])
+
+    return ld

@@ -6,10 +6,15 @@
 <robot name="ur5" xmlns:xacro="http://www.ros.org/wiki/xacro">
   <!-- common stuff -->
   <gazebo>
-    <plugin filename="libgazebo_ros_control.so" name="ros_control">
+    <plugin filename="libgazebo_ros2_control.so" name="gazebo_ros2_control">
       <!--robotNamespace>/</robotNamespace-->
-      <!--robotSimType>gazebo_ros_control/DefaultRobotHWSim</robotSimType-->
+      <!--robotSimType>gazebo_ros_control/DefaultRobotHWSim</robotSimType-->      
+      
+      <parameters>/home/parallels/ros2_ws/src/cartesian_controllers/cartesian_controller_simulation/config/controller_manager.yaml</parameters>
+      
+      <!--<hardwareInterface>hardware_interface::SystemInterface</hardwareInterface>-->
     </plugin>
+    
     <!--
     <plugin name="gazebo_ros_power_monitor_controller" filename="libgazebo_ros_power_monitor.so">
       <alwaysOn>true</alwaysOn>
@@ -30,7 +35,7 @@
   <link name="base_link">
     <visual>
       <geometry>
-        <mesh filename="file://$(find cartesian_controller_simulation)/meshes/ur5/visual/Base.dae"/>
+        <mesh filename="file:///home/parallels/ros2_ws/src/cartesian_controllers/cartesian_controller_simulation/meshes/ur5/visual/Base.dae"/>
       </geometry>
       <material name="LightGrey">
         <color rgba="0.7 0.7 0.7 1.0"/>
@@ -38,7 +43,7 @@
     </visual>
     <collision>
       <geometry>
-        <mesh filename="file://$(find cartesian_controller_simulation)/meshes/ur5/collision/base.stl"/>
+        <mesh filename="file:///home/parallels/ros2_ws/src/cartesian_controllers/cartesian_controller_simulation/meshes/ur5/collision/base.stl"/>
       </geometry>
     </collision>
     <inertial>
@@ -58,7 +63,7 @@
   <link name="shoulder_link">
     <visual>
       <geometry>
-        <mesh filename="file://$(find cartesian_controller_simulation)/meshes/ur5/visual/Shoulder.dae"/>
+        <mesh filename="file:///home/parallels/ros2_ws/src/cartesian_controllers/cartesian_controller_simulation/meshes/ur5/visual/Shoulder.dae"/>
       </geometry>
       <material name="LightGrey">
         <color rgba="0.7 0.7 0.7 1.0"/>
@@ -66,7 +71,7 @@
     </visual>
     <collision>
       <geometry>
-        <mesh filename="file://$(find cartesian_controller_simulation)/meshes/ur5/collision/shoulder.stl"/>
+        <mesh filename="file:///home/parallels/ros2_ws/src/cartesian_controllers/cartesian_controller_simulation/meshes/ur5/collision/shoulder.stl"/>
       </geometry>
     </collision>
     <inertial>
@@ -86,7 +91,7 @@
   <link name="upper_arm_link">
     <visual>
       <geometry>
-        <mesh filename="file://$(find cartesian_controller_simulation)/meshes/ur5/visual/UpperArm.dae"/>
+        <mesh filename="file:///home/parallels/ros2_ws/src/cartesian_controllers/cartesian_controller_simulation/meshes/ur5/visual/UpperArm.dae"/>
       </geometry>
       <material name="LightGrey">
         <color rgba="0.7 0.7 0.7 1.0"/>
@@ -94,7 +99,7 @@
     </visual>
     <collision>
       <geometry>
-        <mesh filename="file://$(find cartesian_controller_simulation)/meshes/ur5/collision/upper_arm.stl"/>
+        <mesh filename="file:///home/parallels/ros2_ws/src/cartesian_controllers/cartesian_controller_simulation/meshes/ur5/collision/upper_arm.stl"/>
       </geometry>
     </collision>
     <inertial>
@@ -114,7 +119,7 @@
   <link name="forearm_link">
     <visual>
       <geometry>
-        <mesh filename="file://$(find cartesian_controller_simulation)/meshes/ur5/visual/Forearm.dae"/>
+        <mesh filename="file:///home/parallels/ros2_ws/src/cartesian_controllers/cartesian_controller_simulation/meshes/ur5/visual/Forearm.dae"/>
       </geometry>
       <material name="LightGrey">
         <color rgba="0.7 0.7 0.7 1.0"/>
@@ -122,7 +127,7 @@
     </visual>
     <collision>
       <geometry>
-        <mesh filename="file://$(find cartesian_controller_simulation)/meshes/ur5/collision/forearm.stl"/>
+        <mesh filename="file:///home/parallels/ros2_ws/src/cartesian_controllers/cartesian_controller_simulation/meshes/ur5/collision/forearm.stl"/>
       </geometry>
     </collision>
     <inertial>
@@ -142,7 +147,7 @@
   <link name="wrist_1_link">
     <visual>
       <geometry>
-        <mesh filename="file://$(find cartesian_controller_simulation)/meshes/ur5/visual/Wrist1.dae"/>
+        <mesh filename="file:///home/parallels/ros2_ws/src/cartesian_controllers/cartesian_controller_simulation/meshes/ur5/visual/Wrist1.dae"/>
       </geometry>
       <material name="LightGrey">
         <color rgba="0.7 0.7 0.7 1.0"/>
@@ -150,7 +155,7 @@
     </visual>
     <collision>
       <geometry>
-        <mesh filename="file://$(find cartesian_controller_simulation)/meshes/ur5/collision/wrist_1.stl"/>
+        <mesh filename="file:///home/parallels/ros2_ws/src/cartesian_controllers/cartesian_controller_simulation/meshes/ur5/collision/wrist_1.stl"/>
       </geometry>
     </collision>
     <inertial>
@@ -170,7 +175,7 @@
   <link name="wrist_2_link">
     <visual>
       <geometry>
-        <mesh filename="file://$(find cartesian_controller_simulation)/meshes/ur5/visual/Wrist2.dae"/>
+        <mesh filename="file:///home/parallels/ros2_ws/src/cartesian_controllers/cartesian_controller_simulation/meshes/ur5/visual/Wrist2.dae"/>
       </geometry>
       <material name="LightGrey">
         <color rgba="0.7 0.7 0.7 1.0"/>
@@ -178,7 +183,7 @@
     </visual>
     <collision>
       <geometry>
-        <mesh filename="file://$(find cartesian_controller_simulation)/meshes/ur5/collision/wrist_2.stl"/>
+        <mesh filename="file:///home/parallels/ros2_ws/src/cartesian_controllers/cartesian_controller_simulation/meshes/ur5/collision/wrist_2.stl"/>
       </geometry>
     </collision>
     <inertial>
@@ -198,7 +203,7 @@
   <link name="wrist_3_link">
     <visual>
       <geometry>
-        <mesh filename="file://$(find cartesian_controller_simulation)/meshes/ur5/visual/Wrist3.dae"/>
+        <mesh filename="file:///home/parallels/ros2_ws/src/cartesian_controllers/cartesian_controller_simulation/meshes/ur5/visual/Wrist3.dae"/>
       </geometry>
       <material name="LightGrey">
         <color rgba="0.7 0.7 0.7 1.0"/>
@@ -206,7 +211,7 @@
     </visual>
     <collision>
       <geometry>
-        <mesh filename="file://$(find cartesian_controller_simulation)/meshes/ur5/collision/wrist_3.stl"/>
+        <mesh filename="file:///home/parallels/ros2_ws/src/cartesian_controllers/cartesian_controller_simulation/meshes/ur5/collision/wrist_3.stl"/>
       </geometry>
     </collision>
     <inertial>
@@ -288,4 +293,51 @@
     <child link="base_link"/>
     <origin rpy="0.0 0.0 0.0" xyz="0.0 0.0 0.0"/>
   </joint>
+  <ros2_control name="GazeboSystem" type="system">
+    <hardware>
+    <plugin>gazebo_ros2_control/GazeboSystem</plugin>
+    </hardware>
+    <joint name="shoulder_pan_joint">
+      <command_interface name="position"/>
+      <state_interface name="position">
+        <param name="initial value">0.0</param>
+      </state_interface>
+      <state_interface name="velocity"/>
+    </joint>
+    <joint name="shoulder_lift_joint">
+      <command_interface name="position"/>
+      <state_interface name="position">
+        <param name="initial value">0.0</param>
+      </state_interface>
+      <state_interface name="velocity"/>
+    </joint>
+    <joint name="elbow_joint">
+      <command_interface name="position"/>
+      <state_interface name="position">
+        <param name="initial value">0.0</param>
+      </state_interface>
+      <state_interface name="velocity"/>
+    </joint>
+    <joint name="wrist_1_joint">
+      <command_interface name="position"/>
+      <state_interface name="position">
+        <param name="initial value">0.0</param>
+      </state_interface>
+      <state_interface name="velocity"/>
+    </joint>
+    <joint name="wrist_2_joint">
+      <command_interface name="position"/>
+      <state_interface name="position">
+        <param name="initial value">0.0</param>
+      </state_interface>
+      <state_interface name="velocity"/>
+    </joint>
+    <joint name="wrist_3_joint">
+      <command_interface name="position"/>
+      <state_interface name="position">
+        <param name="initial value">0.0</param>
+      </state_interface>
+      <state_interface name="velocity"/>
+    </joint>
+  </ros2_control>
 </robot>
