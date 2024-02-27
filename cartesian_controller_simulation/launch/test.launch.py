@@ -72,7 +72,7 @@ def generate_launch_description():
         condition=UnlessCondition(LaunchConfiguration('headless'))
     )
 
-######################################################################################    
+#########################################################################################
     # Controller spawners
     #controller_spawners = []
 
@@ -100,7 +100,6 @@ def generate_launch_description():
             #arguments=['--controller-manager', '/controller_manager', '--activate', controller, '--inactive'],
             #output="screen",
         #))
-
 #########################################################################################
 
     # Launch Description

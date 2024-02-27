@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+    <gazebo>
+    <plugin filename="libgazebo_ros2_control.so" name="gazebo_ros2_control">      
+      
+      <parameters>/home/parallels/ros2_ws/src/cartesian_controllers/cartesian_controller_simulation/config/controller_manager.yaml</parameters>
+      <!--<parameters>$(find cartesian_controller_simulation)/config/controller_manager.yaml</parameters>-->
+      
+    </plugin>
+  </gazebo>
+
+</robot>

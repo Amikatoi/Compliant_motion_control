@@ -34,7 +34,7 @@ cartesian_compliance_controller:
     # tool.  When you specify a target_wrench, i.e. some additional forces that
     # your robot should apply to its environment, that target_wrench gets
     # applied in this frame.
-    end_effector_link: "tool0"
+    end_effector_link: "ee_link"
 
     # This is usually the link directly before the first actuated joint.  All
     # controllers will build a kinematic chain from this link up to
@@ -55,7 +55,7 @@ cartesian_compliance_controller:
     # downward pushing forces without generating unwanted offset moments.
     # On the other hand, an application could benefit from yielding a little in
     # the robot's wrist while drawing a line on a surface with a pen.
-    compliance_ref_link: "tool0"
+    compliance_ref_link: "ee_link"
 
     joints:
       - shoulder_pan_joint
@@ -105,7 +105,7 @@ cartesian_force_controller:
   ros__parameters:
 
     # See the cartesian_compliance_controller
-    end_effector_link: "tool0"
+    end_effector_link: "ee_link"
     robot_base_link: "base_link"
     ft_sensor_ref_link: "sensor_link"
     joints:
@@ -136,8 +136,10 @@ cartesian_force_controller:
 cartesian_motion_controller:
   ros__parameters:
 
+    # robot_description: "$(find cartesian_controller_simulation)/urdf/ur5_edit.urdf"
+    
     # See the cartesian_compliance_controller
-    end_effector_link: "tool0"
+    end_effector_link: "ee_link"
     robot_base_link: "base_link"
     joints:
       - shoulder_pan_joint
@@ -152,6 +154,10 @@ cartesian_motion_controller:
       - position
         #- velocity
 
+    state_interfaces:
+      - position
+      - velocity
+      
     solver:
         error_scale: 1.0
         iterations: 10
@@ -167,9 +173,9 @@ cartesian_motion_controller:
 
 motion_control_handle:
   ros__parameters:
-    end_effector_link: "tool0"
+    end_effector_link: "ee_link"
     robot_base_link: "base_link"
-    ft_sensor_ref_link: "tool0"
+    ft_sensor_ref_link: "ee_link"
     joints:
       - shoulder_pan_joint
       - shoulder_lift_joint
@@ -199,7 +205,7 @@ joint_trajectory_controller:
 #--------------------------------------------------------------------------------
 invalid_cartesian_compliance_controller:
   ros__parameters:
-    end_effector_link: "tool0"
+    end_effector_link: "ee_link"
     robot_base_link: "base_link"
     ft_sensor_ref_link: "sensor_link"
 
@@ -238,7 +244,7 @@ invalid_cartesian_compliance_controller:
 
 invalid_cartesian_force_controller:
   ros__parameters:
-    end_effector_link: "tool0"
+    end_effector_link: "ee_link"
     robot_base_link: "base_link"
 
     # Invalid: The sensor link is not part of the kinematic chain from

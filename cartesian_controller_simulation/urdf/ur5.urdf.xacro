@@ -1,8 +1,8 @@
 <?xml version="1.0"?>
 <robot name="ur5" xmlns:xacro="http://www.ros.org/wiki/xacro">
 
-  <xacro:include filename="$(find cartesian_controller_simulation)/urdf/ur5.transmission.xacro" />
-  <xacro:include filename="$(find cartesian_controller_simulation)/urdf/ur5.gazebo.xacro" />
+  <xacro:include filename="/home/parallels/ros2_ws/src/cartesian_controllers/cartesian_controller_simulation/urdf/ur5.transmission.xacro" />
+  <xacro:include filename="/home/parallels/ros2_ws/src/cartesian_controllers/cartesian_controller_simulation/urdf/ur5.gazebo.xacro" />
   
 
   <!--<xacro:property name="pi" value="3.14159265" />-->
@@ -83,7 +83,7 @@
     <link name="${prefix}base_link" >
       <visual>
         <geometry>
-          <mesh filename="file://$(find cartesian_controller_simulation)/meshes/ur5/visual/Base.dae" />
+          <mesh filename="file:///home/parallels/ros2_ws/src/cartesian_controllers/cartesian_controller_simulation/meshes/ur5/visual/Base.dae" />
         </geometry>
         <material name="LightGrey">
           <color rgba="0.7 0.7 0.7 1.0"/>
@@ -91,7 +91,7 @@
       </visual>
       <collision>
         <geometry>
-          <mesh filename="file://$(find cartesian_controller_simulation)/meshes/ur5/collision/base.stl" />
+          <mesh filename="file:///home/parallels/ros2_ws/src/cartesian_controllers/cartesian_controller_simulation/meshes/ur5/collision/base.stl" />
         </geometry>
       </collision>
       <xacro:cylinder_inertial radius="0.06" length="0.05" mass="${base_mass}">
@@ -116,7 +116,7 @@
     <link name="${prefix}shoulder_link">
       <visual>
         <geometry>
-          <mesh filename="file://$(find cartesian_controller_simulation)/meshes/ur5/visual/Shoulder.dae" />
+          <mesh filename="file:///home/parallels/ros2_ws/src/cartesian_controllers/cartesian_controller_simulation/meshes/ur5/visual/Shoulder.dae" />
         </geometry>
         <material name="LightGrey">
           <color rgba="0.7 0.7 0.7 1.0"/>
@@ -124,7 +124,7 @@
       </visual>
       <collision>
         <geometry>
-          <mesh filename="file://$(find cartesian_controller_simulation)/meshes/ur5/collision/shoulder.stl" />
+          <mesh filename="file:///home/parallels/ros2_ws/src/cartesian_controllers/cartesian_controller_simulation/meshes/ur5/collision/shoulder.stl" />
         </geometry>
       </collision>
       <xacro:cylinder_inertial radius="0.06" length="0.15" mass="${shoulder_mass}">
@@ -149,7 +149,7 @@
     <link name="${prefix}upper_arm_link">
       <visual>
         <geometry>
-          <mesh filename="file://$(find cartesian_controller_simulation)/meshes/ur5/visual/UpperArm.dae" />
+          <mesh filename="file:///home/parallels/ros2_ws/src/cartesian_controllers/cartesian_controller_simulation/meshes/ur5/visual/UpperArm.dae" />
         </geometry>
         <material name="LightGrey">
           <color rgba="0.7 0.7 0.7 1.0"/>
@@ -157,7 +157,7 @@
       </visual>
       <collision>
         <geometry>
-          <mesh filename="file://$(find cartesian_controller_simulation)/meshes/ur5/collision/upper_arm.stl" />
+          <mesh filename="file:///home/parallels/ros2_ws/src/cartesian_controllers/cartesian_controller_simulation/meshes/ur5/collision/upper_arm.stl" />
         </geometry>
       </collision>
       <xacro:cylinder_inertial radius="0.06" length="0.56" mass="${upper_arm_mass}">
@@ -182,7 +182,7 @@
     <link name="${prefix}forearm_link">
       <visual>
         <geometry>
-          <mesh filename="file://$(find cartesian_controller_simulation)/meshes/ur5/visual/Forearm.dae" />
+          <mesh filename="file:///home/parallels/ros2_ws/src/cartesian_controllers/cartesian_controller_simulation/meshes/ur5/visual/Forearm.dae" />
         </geometry>
         <material name="LightGrey">
           <color rgba="0.7 0.7 0.7 1.0"/>
@@ -190,7 +190,7 @@
       </visual>
       <collision>
         <geometry>
-          <mesh filename="file://$(find cartesian_controller_simulation)/meshes/ur5/collision/forearm.stl" />
+          <mesh filename="file:///home/parallels/ros2_ws/src/cartesian_controllers/cartesian_controller_simulation/meshes/ur5/collision/forearm.stl" />
         </geometry>
       </collision>
       <xacro:cylinder_inertial radius="0.06" length="0.5" mass="${forearm_mass}">
@@ -215,7 +215,7 @@
     <link name="${prefix}wrist_1_link">
       <visual>
         <geometry>
-          <mesh filename="file://$(find cartesian_controller_simulation)/meshes/ur5/visual/Wrist1.dae" />
+          <mesh filename="file:///home/parallels/ros2_ws/src/cartesian_controllers/cartesian_controller_simulation/meshes/ur5/visual/Wrist1.dae" />
         </geometry>
         <material name="LightGrey">
           <color rgba="0.7 0.7 0.7 1.0"/>
@@ -223,7 +223,7 @@
       </visual>
       <collision>
         <geometry>
-          <mesh filename="file://$(find cartesian_controller_simulation)/meshes/ur5/collision/wrist_1.stl" />
+          <mesh filename="file:///home/parallels/ros2_ws/src/cartesian_controllers/cartesian_controller_simulation/meshes/ur5/collision/wrist_1.stl" />
         </geometry>
       </collision>
       <xacro:cylinder_inertial radius="0.6" length="0.12" mass="${wrist_1_mass}">
@@ -248,7 +248,7 @@
     <link name="${prefix}wrist_2_link">
       <visual>
         <geometry>
-          <mesh filename="file://$(find cartesian_controller_simulation)/meshes/ur5/visual/Wrist2.dae" />
+          <mesh filename="file:///home/parallels/ros2_ws/src/cartesian_controllers/cartesian_controller_simulation/meshes/ur5/visual/Wrist2.dae" />
         </geometry>
         <material name="LightGrey">
           <color rgba="0.7 0.7 0.7 1.0"/>
@@ -256,7 +256,7 @@
       </visual>
       <collision>
         <geometry>
-          <mesh filename="file://$(find cartesian_controller_simulation)/meshes/ur5/collision/wrist_2.stl" />
+          <mesh filename="file:///home/parallels/ros2_ws/src/cartesian_controllers/cartesian_controller_simulation/meshes/ur5/collision/wrist_2.stl" />
         </geometry>
       </collision>
       <xacro:cylinder_inertial radius="0.6" length="0.12" mass="${wrist_2_mass}">
@@ -281,7 +281,7 @@
     <link name="${prefix}wrist_3_link">
       <visual>
         <geometry>
-          <mesh filename="file://$(find cartesian_controller_simulation)/meshes/ur5/visual/Wrist3.dae" />
+          <mesh filename="file:///home/parallels/ros2_ws/src/cartesian_controllers/cartesian_controller_simulation/meshes/ur5/visual/Wrist3.dae" />
         </geometry>
         <material name="LightGrey">
           <color rgba="0.7 0.7 0.7 1.0"/>
@@ -289,7 +289,7 @@
       </visual>
       <collision>
         <geometry>
-          <mesh filename="file://$(find cartesian_controller_simulation)/meshes/ur5/collision/wrist_3.stl" />
+          <mesh filename="file:///home/parallels/ros2_ws/src/cartesian_controllers/cartesian_controller_simulation/meshes/ur5/collision/wrist_3.stl" />
         </geometry>
       </collision>
       <xacro:cylinder_inertial radius="0.6" length="0.12" mass="${wrist_3_mass}">
