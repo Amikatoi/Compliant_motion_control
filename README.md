@@ -31,3 +31,9 @@ In a nutshell, my project endeavors to craft a symphony between the age-old art 
 [1]: https://doi.org/10.3390/app10238694
 [2]: https://ieeexplore.ieee.org/abstract/document/8570842
 [3]: https://github.com/fzi-forschungszentrum-informatik/cartesian_controllers/tree/ros2
+
+demon including simulation
+problems that i have encountered and how i solve them
+controller driver
+understand what launch files look like and code
+future projects
