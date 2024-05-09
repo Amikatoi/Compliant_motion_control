@@ -4,7 +4,7 @@
 The art of calligraphy is a meticulous process that requires precision, style, and consistency. Traditionally the domain of human artisans, the potential to replicate this art using robotic systems offers intriguing possibilities in terms of scalability, consistency, and adaptability. This project aims to bridge the traditional art of Chinese calligraphy with modern robotics technology. By leveraging robotic systems, particularly the UR5e robotic arm, this project serves as a resource for individuals interested in building upon or extending the capabilities of robotic systems for calligraphy or similar applications, specifically under ROS2. Whether you are a researcher, developer, or hobbyist, you can utilize the provided documentation, codebase, and methodologies to further explore the intersection of robotics and artistic expression.
 
 ## Objective
-The research is important because it addresses a significant gap in the current robotics ecosystem, particularly within the context of ROS2, simulations, and the application of custom controllers, such as for the UR5e robotic arm. Some of the objectives are:
+The project addresses a significant gap in the current robotics ecosystem, particularly within the context of ROS2, simulations, and the application of custom controllers, such as for the UR5e robotic arm. Some of the objectives are:
 
 1. Translate Character Stroke Data: Develop a system that translates character stroke data into Cartesian coordinates interpretable by the robot.
 2. Create Interface for Cartesian Information: Design an interface that conveys Cartesian information to the robotic arm's controller.
