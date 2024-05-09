@@ -48,7 +48,6 @@ This will start a simulated world in which you can inspect
 and try things. Here are some quick tutorials with further details:
 - [Cartesian controller simulation](cartesian_controller_simulation/README.md)
 - [Cartesian motion controller](cartesian_motion_controller/README.md)
-- [Cartesian controller handles](cartesian_controller_handles/README.md)
 
 ## Contributing
 We welcome contributions from the robotics community to enhance and expand the capabilities of this project. Whether it is improving documentation, optimizing code, adding new features, or extending the helper package, your contributions are valuable in advancing the field of robotic calligraphy.
