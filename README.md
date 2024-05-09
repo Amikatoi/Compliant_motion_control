@@ -15,7 +15,7 @@ The methodology encompasses a process where the user inputs desired characters, 
 1. p and d gains: Control the responsiveness along each Cartesian axis
 2. Error scale: Adjust the controller's overall responsiveness
 3. Iterations per cycle: Determine the level of precision in tracking
-<img src="/resources/Picture11.png" alt="System Diagram" width="400" height="800">
+<img src="/resources/Picture11.png" alt="System Diagram" width="500" height="800">
 
 ## Contributing
 We welcome contributions from the robotics community to enhance and expand the capabilities of this project. Whether it is improving documentation, optimizing code, adding new features, or extending the helper package, your contributions are valuable in advancing the field of robotic calligraphy.
