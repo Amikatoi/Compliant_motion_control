@@ -11,11 +11,38 @@ The research is important because it addresses a significant gap in the current 
 3. Enable UR5e Robotic Arm for Calligraphy: Implement the necessary control mechanisms to enable the UR5e robotic arm to perform Chinese calligraphy strokes with precision and fidelity.
 
 ## Methodology
-The methodology encompasses a process where the user inputs desired characters, which are then converted into SVG stroke data. These strokes are translated into Cartesian coordinates for the UR5e robotic arm equipped with a Cartesian controller. It replicates the calligraphy motion by activating the controller to maneuver the brush and create the calligraphic strokes. The function parses user-requested characters from a database, each characterized by an identifier, a sequence of SVG path data for stroke order, and a corresponding list of stroke medians. These elements are then transformed into Cartesian coordinates as shown in Fig 3. The Cartesian Motion Controller is utilized for smooth motions. Key to its flexibility are adjustable parameters:
+The methodology encompasses a process where the user inputs desired characters, which are then converted into SVG stroke data. These strokes are translated into Cartesian coordinates for the UR5e robotic arm equipped with a Cartesian controller. It replicates the calligraphy motion by activating the controller to maneuver the brush and create the calligraphic strokes. The function parses user-requested characters from a database, each characterized by an identifier, a sequence of SVG path data for stroke order, and a corresponding list of stroke medians. These elements are then transformed into Cartesian coordinates. The Cartesian Motion Controller is utilized for smooth motions. Key to its flexibility are adjustable parameters:
 1. p and d gains: Control the responsiveness along each Cartesian axis
 2. Error scale: Adjust the controller's overall responsiveness
 3. Iterations per cycle: Determine the level of precision in tracking
 <img src="/resources/Picture11.png" alt="System Diagram" width="500" height="800">
+
+## Installation
+Switch into the `src` folder of your current ROS2 workspace and
+```bash
+git clone -b ros2 https://github.com/fzi-forschungszentrum-informatik/cartesian_controllers.git
+rosdep install --from-paths ./ --ignore-src -y
+cd ..
+colcon build --packages-skip cartesian_controller_simulation cartesian_controller_tests --cmake-args -DCMAKE_BUILD_TYPE=Release
+```
+This builds the `cartesian_controllers` without its simulation environment.
+The simulation is mostly relevant if you are just getting to know the `cartesian_controllers` and want to inspect how things work.
+You can install it according to this [readme](cartesian_controller_simulation/README.md).
+
+Now source your workspace again and you are ready to go.
+
+## Getting started
+This assumes you have the `cartesian_controller_simulation` package installed.
+In a sourced terminal, call
+```bash
+ros2 launch cartesian_controller_simulation simulation.launch.py
+```
+
+This will start a simulated world in which you can inspect
+and try things. Here are some quick tutorials with further details:
+- [Cartesian motion controller](cartesian_motion_controller/README.md)
+- [Cartesian controller handles](cartesian_controller_handles/README.md)
+- [Cartesian controller simulation](cartesian_controller_simulation/README.md)
 
 ## Contributing
 We welcome contributions from the robotics community to enhance and expand the capabilities of this project. Whether it is improving documentation, optimizing code, adding new features, or extending the helper package, your contributions are valuable in advancing the field of robotic calligraphy.
