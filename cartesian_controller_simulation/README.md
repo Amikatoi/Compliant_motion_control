@@ -31,7 +31,7 @@ In the launch file, ros2_control_node (or any other manually written control nod
 ### robot_description is empty
 After launching the robot in Gazebo, if the desired controller cannot be configured due to the *robot_description* being empty as shown below:
 
-<img src="/resources/13.png" alt="p1">
+<img src="/resources/13.png" alt="p1" width="750" height="500">
 
 
 ## Hardware interfaces for controllers
