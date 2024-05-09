@@ -43,7 +43,7 @@ and change it to:
 m_robot_description = R"(<?xml version="1.0" ?> ... <command_interface name="position"/> <state_interface name="position"> <param name="initial value">0.0</param> </state_interface> <state_interface name="velocity"/> </joint> <joint name="wrist_3_joint"> <command_interface name="position"/> <state_interface name="position"> <param name="initial value">0.0</param> </state_interface> <state_interface name="velocity"/> </joint> </ros2_control> </robot>)";
 ```
 
-In this way, the *robot_description* can be propagated to the controller manually. The content after *m_robot_description =* should match the your own robot configuration which can be extracted from *robot_description* topic (if the model can be successfully spawned in Gazebo).
+In this way, the *robot_description* can be propagated to the controller manually. The content after *m_robot_description =* should match your own robot configuration which can be extracted from *robot_description* topic (if the model can be successfully spawned in Gazebo).
 
 ## Hardware interfaces for controllers
 Exposed interfaces per joint:
