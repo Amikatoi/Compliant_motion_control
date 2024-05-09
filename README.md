@@ -11,12 +11,13 @@ The research is important because it addresses a significant gap in the current 
 3. Enable UR5e Robotic Arm for Calligraphy: Implement the necessary control mechanisms to enable the UR5e robotic arm to perform Chinese calligraphy strokes with precision and fidelity
 
 ## Methodology
-The project leverages Cartesian Impedance Control, wherein the desired Cartesian pose of the robot’s end effector in the task space is inputted. This input assists in computing the required torque, which is then commanded to each joint of the robot, guiding the end effector along the predetermined trajectories. In the development of this project, I leveraged controller methods sourced from [3]. These methods, essential to the project's success, can be accessed and reviewed in the authors' entirety on their official GitHub repository. The repository provided valuable insights and a solid foundation, enabling a more streamlined and efficient implementation process.
-
-To achieve the conversion of Chinese characters into robot-compatible coordinates, the project draws inspiration from methodologies proposed in references [1] and [2]. The process involves decomposing Chinese characters into individual strokes and subsequently mapping these strokes to a database containing robotic writing trajectories.
+The methodology encompasses a process where the user inputs desired characters, which are then converted into SVG stroke data. These strokes are translated into Cartesian coordinates for the UR5e robotic arm equipped with a Cartesian controller. It replicates the calligraphy motion by activating the controller to maneuver the brush and create the calligraphic strokes. The function parses user-requested characters from a database, each characterized by an identifier, a sequence of SVG path data for stroke order, and a corresponding list of stroke medians. These elements are then transformed into Cartesian coordinates as shown in Fig 3. The Cartesian Motion Controller is utilized for smooth motions. Key to its flexibility are adjustable parameters:
+1. p and d gains: Control the responsiveness along each Cartesian axis
+2. Error scale: Adjust the controller's overall responsiveness
+3. Iterations per cycle: Determine the level of precision in tracking
 
 ## Contributing
-We welcome contributions from the robotics community to enhance and expand the capabilities of this project. Whether it's improving documentation, optimizing code, adding new features, or extending the helper package, your contributions are valuable in advancing the field of robotic calligraphy.
+We welcome contributions from the robotics community to enhance and expand the capabilities of this project. Whether it is improving documentation, optimizing code, adding new features, or extending the helper package, your contributions are valuable in advancing the field of robotic calligraphy.
 
 [1]: https://doi.org/10.3390/app10238694
 [2]: https://ieeexplore.ieee.org/abstract/document/8570842
