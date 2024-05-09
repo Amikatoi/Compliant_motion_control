@@ -28,7 +28,11 @@ In the launch file, ros2_control_node (or any other manually written control nod
 [USING ROS2 WTH YOUR CUSTOM ROBOT](https://www.youtube.com/watch?v=EosEikbZhiM).
 
 
-### 
+### robot_description is empty
+After launching the robot in Gazebo, if the desired controller cannot be configured due to the *robot_description* being empty as shown below:
+
+<img src="/resources/13.png" alt="p1">
+
 
 ## Hardware interfaces for controllers
 Exposed interfaces per joint:
