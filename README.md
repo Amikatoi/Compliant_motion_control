@@ -32,7 +32,13 @@ You can install it according to this [readme](cartesian_controller_simulation/RE
 Now source your workspace again and you are ready to go.
 
 ## Getting started
-This assumes you have the `cartesian_controller_simulation` package installed.
+For those who work on MacOS system, follow the tutorial below to install a virtual machine:
+- [Virtual machine setup](macos_vm_setup/README.md)
+
+To install the program that converts Chinese characters into Cartesian poses, follow:
+- [Cartesian poses generator](calligraphy/README.md)
+
+Then assuming you have the `cartesian_controller_simulation` package installed.
 In a sourced terminal, call
 ```bash
 ros2 launch cartesian_controller_simulation simulation.launch.py
@@ -40,8 +46,6 @@ ros2 launch cartesian_controller_simulation simulation.launch.py
 
 This will start a simulated world in which you can inspect
 and try things. Here are some quick tutorials with further details:
-- [Virtual machine setup](macos_vm_setup/README.md)
-- [Cartesian poses generator](calligraphy/README.md)
 - [Cartesian controller simulation](cartesian_controller_simulation/README.md)
 - [Cartesian motion controller](cartesian_motion_controller/README.md)
 - [Cartesian controller handles](cartesian_controller_handles/README.md)
